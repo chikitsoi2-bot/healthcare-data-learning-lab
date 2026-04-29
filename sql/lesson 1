@@ -1,0 +1,143 @@
+--new table for "CREAT TABLE" "SELECT" "FROM" "INSERT" "WHERE" "ORDER BY"
+CREATE TABLE IF NOT EXISTS students(
+id INTEGER PRIMARY KEY,
+name TEXT,
+score INTEGER
+);
+INSERT INTO students (name, score)
+VALUES
+('Amy', 90),
+('Ben', 78),
+('Chris', 95);
+SELECT * FROM students;
+DROP TABLE IF EXISTS students;
+SELECT * FROM students
+WHERE score >= 90;
+SELECT name, score
+FROM students
+WHERE score >= 90;
+SELECT * FROM students
+WHERE score >= 90;
+SELECT name, score
+FROM students
+WHERE score >= 90;
+SELECT * FROM students
+WHERE name = 'Amy';
+SELECT *
+FROM students
+WHERE score >= 90 AND name = 'Amy';
+SELECT *
+FROM students
+WHERE score >=90 or name = 'Ben';
+SELECT *
+FROM students
+WHERE (score >=90 or name = 'Ben') AND id >=2;
+SELECT name, score
+FROM students
+WHERE score >= 90 OR name = 'Ben';
+SELECT *
+FROM students
+ORDER BY score ASC;
+SELECT * 
+FROM students
+ORDER BY score DESC;
+SELECT *
+FROM students
+ORDER BY name ASC;
+SELECT *
+FROM students
+ORDER BY name DESC;
+SELECT name, score
+FROM students
+WHERE score >= 80
+ORDER BY score DESC;
+SELECT *
+FROM students
+LIMIT 1;
+
+/*
+SQL Lesson 1-2
+Topic: SELECT, FROM, LIMIT, WHERE, ORDER BY, COUNT, AVG
+Dataset: appointments
+Purpose: Healthcare appointment analysis practice
+*/
+
+DROP TABLE IF EXISTS appointments;
+
+CREATE TABLE appointments (
+    appointment_id INTEGER,
+    patient_id TEXT,
+    department TEXT,
+    appointment_date TEXT,
+    status TEXT,
+    waiting_minutes INTEGER,
+    billing_amount INTEGER
+);
+
+INSERT INTO appointments VALUES
+(1, 'P001', 'Cardiology', '2026-04-01', 'Completed', 25, 120),
+(2, 'P002', 'Dermatology', '2026-04-01', 'Cancelled', 0, 0),
+(3, 'P003', 'Orthopedics', '2026-04-02', 'Completed', 45, 200),
+(4, 'P004', 'Cardiology', '2026-04-02', 'Completed', 30, 150),
+(5, 'P005', 'Neurology', '2026-04-03', 'No-show', 0, 0),
+(6, 'P006', 'Orthopedics', '2026-04-03', 'Completed', 60, 220);
+
+-- View first 5 rows
+SELECT *
+FROM appointments
+LIMIT 5;
+
+-- View selected columns
+SELECT patient_id, department, waiting_minutes
+FROM appointments
+LIMIT 5;
+
+-- Filter and sort by waiting time
+SELECT appointment_id, patient_id, waiting_minutes
+FROM appointments
+WHERE waiting_minutes <= 45
+ORDER BY waiting_minutes ASC;
+
+-- Completed appointments
+SELECT appointment_id, patient_id, department, status
+FROM appointments
+WHERE status = 'Completed'
+ORDER BY appointment_id ASC;
+
+-- Orthopedics appointments
+SELECT appointment_id, patient_id, department, waiting_minutes, billing_amount
+FROM appointments
+WHERE department = 'Orthopedics'
+ORDER BY waiting_minutes DESC;
+
+-- Count total appointments
+SELECT COUNT(*) AS total_appointments
+FROM appointments;
+
+-- Count completed appointments
+SELECT COUNT(*) AS completed_appointments
+FROM appointments
+WHERE status = 'Completed';
+
+-- Count paid appointments
+SELECT COUNT(*) AS paid_appointments
+FROM appointments
+WHERE billing_amount > 0;
+
+-- Average waiting time
+SELECT AVG(waiting_minutes) AS avg_waiting_minutes
+FROM appointments;
+
+-- Average completed waiting time
+SELECT AVG(waiting_minutes) AS avg_completed_waiting_minutes
+FROM appointments
+WHERE status = 'Completed';
+
+-- Average billing amount
+SELECT AVG(billing_amount) AS avg_billing_amount
+FROM appointments;
+
+-- Average completed billing amount
+SELECT AVG(billing_amount) AS avg_completed_billing_amount
+FROM appointments
+WHERE status = 'Completed';
